@@ -11,7 +11,6 @@
 
 <meta name="author" content="squazi" />
 
-<meta name="date" content="2017-03-21" />
 
 <title>Case Study 1</title>
 
@@ -119,52 +118,216 @@ $(document).ready(function () {
 
 <h1 class="title toc-ignore">Case Study 1</h1>
 <h4 class="author"><em>squazi</em></h4>
-<h4 class="date"><em>March 21, 2017</em></h4>
+<h4 class="date"><em>March 21 2017</em></h4>
 
 </div>
 
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<p>The following analyzes data that ranks the GDP of 190 countries with corresponding educational data for these countries.The intent is discover correlation/causation between financial success and education on an aggregate country level scale. ##The data files can be found at: <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv">https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv</a> &amp; <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv">https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv</a> Header’s are included in these comma seperated value files; however, similar variables between the data sets are not names synonymously.</p>
+<div id="the-following-analyzes-data-that-ranks-the-gdp-of-190-countries-with-corresponding-educational-data-for-these-countries.the-intent-is-discover-correlationcausation-between-financial-success-and-education-on-an-aggregate-country-level-scale." class="section level3">
+<h3>The following analyzes data that ranks the GDP of 190 countries with corresponding educational data for these countries.The intent is discover correlation/causation between financial success and education on an aggregate country level scale.</h3>
 </div>
-<div id="common-abbreviaions" class="section level1">
-<h1>Common abbreviaions:</h1>
-<p>-GDP: Gross Domestic Product -Commonly understood abbreviations for countries: Can be referenced at <a href="http://www.worldatlas.com/aatlas/ctycodes.htm" class="uri">http://www.worldatlas.com/aatlas/ctycodes.htm</a></p>
+<div id="relevant-data" class="section level2">
+<h2>Relevant Data</h2>
+<div id="the-data-files-can-be-found-at-httpsd396qusza40orc.cloudfront.netgetdata2fdata2fgdp.csv-httpsd396qusza40orc.cloudfront.netgetdata2fdata2fedstats_country.csv" class="section level4">
+<h4>The data files can be found at: <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv">https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv</a> &amp; <a href="https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv">https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv</a></h4>
 </div>
-<div id="pre-analyis" class="section level1">
-<h1>Pre-analyis</h1>
-<p>By viewing both tables, you can tell that there is an easily discernible unique variable between both tables, the trigram country code, however the dataset Monies does not label it. The variable names are also lacking as the first for observations are blanks and appear to be extensions of the variable names. Monies also has several non-useful blank variables. The Brains dataset has a wide variety of usable variables, but some of them are redundant. As a comical side note to this analysis, it seems that Monies leaves you empty, and Brains leaves you cluttered.</p>
-<p>I will reread the table Monies, into the table GDP12 to acccomodate for the apparent title of the table that was trapped as a variable name.I will then trim an extraneous data from the merged data, then analyze</p>
+<div id="headers-are-included-in-these-comma-seperated-value-files-however-similar-variables-between-the-data-sets-are-not-named-synonymously." class="section level4">
+<h4>Header’s are included in these comma seperated value files; however, similar variables between the data sets are not named synonymously.</h4>
+</div>
+</div>
+<div id="common-abbreviaions" class="section level2">
+<h2>Common abbreviaions:</h2>
+<div id="gdp-gross-domestic-product" class="section level4">
+<h4>-GDP: Gross Domestic Product</h4>
+</div>
+<div id="commonly-understood-abbreviations-for-countries-can-be-referenced-at-httpwww.worldatlas.comaatlasctycodes.htm" class="section level4">
+<h4>-Commonly understood abbreviations for countries: Can be referenced at <a href="http://www.worldatlas.com/aatlas/ctycodes.htm" class="uri">http://www.worldatlas.com/aatlas/ctycodes.htm</a></h4>
+</div>
+</div>
+<div id="pre-analyis" class="section level2">
+<h2>Pre-analyis</h2>
+<div id="by-viewing-both-tables-you-can-tell-that-there-is-an-easily-discernible-unique-variable-between-both-tables-the-trigram-country-code-however-the-dataset-one-dataset-does-not-label-it.-this-data-also-has-a-series-of-unnecssary-blank-columns-that-will-need-to-be-removed." class="section level5">
+<h5>By viewing both tables, you can tell that there is an easily discernible unique variable between both tables, the trigram country code, however the dataset one dataset does not label it. This data also has a series of unnecssary blank columns that will need to be removed.</h5>
+</div>
+<div id="the-other-set-of-data-has-a-wide-variety-of-usable-variables-but-some-of-them-are-redundant." class="section level5">
+<h5>The other set of data has a wide variety of usable variables, but some of them are redundant.</h5>
+</div>
+<div id="i-will-work-on-tidying-up-the-shorter-set-of-data-with-the-incorrect-varables-trim-extraneous-data-merge-it-with-the-fuller-set-of-data-then-analyze." class="section level5">
+<h5>I will work on tidying up the shorter set of data with the incorrect varables, trim extraneous data, merge it with the fuller set of data, then analyze.</h5>
+<pre class="r"><code>#Loading Packages: repmis, diplyr, tidyr, &amp; ggplot2
+library(repmis)
+library(dplyr)</code></pre>
+<pre><code>## Warning: package 'dplyr' was built under R version 3.3.3</code></pre>
+<pre><code>## 
+## Attaching package: 'dplyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:stats':
+## 
+##     filter, lag</code></pre>
+<pre><code>## The following objects are masked from 'package:base':
+## 
+##     intersect, setdiff, setequal, union</code></pre>
+<pre class="r"><code>library(tidyr)</code></pre>
+<pre><code>## Warning: package 'tidyr' was built under R version 3.3.3</code></pre>
+<pre class="r"><code>library(ggplot2)
+#Setting working directory, downloading both data files, and reading them into R as CSV files with the names &quot;Monies&quot;&quot; and &quot;Brains&quot;
+setwd(&quot;C:/Users/esunqua/Documents/R/Case Study 1&quot;)
+download.file(&quot;https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv&quot;,destfile=&quot;./GDP.csv&quot;)
+list.files()</code></pre>
+<pre><code>##  [1] &quot;~$Code.docx&quot;          &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;   
+##  [4] &quot;Case_Study_1.md&quot;      &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;  
+##  [7] &quot;Code.docx&quot;            &quot;EDU.csv&quot;              &quot;GDP.csv&quot;             
+## [10] &quot;obs-casestudy1.RData&quot;</code></pre>
+<pre class="r"><code>download.file(&quot;https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv&quot;,destfile=&quot;./EDU.csv&quot;)
+list.files()</code></pre>
+<pre><code>##  [1] &quot;~$Code.docx&quot;          &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;   
+##  [4] &quot;Case_Study_1.md&quot;      &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;  
+##  [7] &quot;Code.docx&quot;            &quot;EDU.csv&quot;              &quot;GDP.csv&quot;             
+## [10] &quot;obs-casestudy1.RData&quot;</code></pre>
+<pre class="r"><code>Monies &lt;-read.csv(&quot;GDP.csv&quot;, header = TRUE)
+head(Monies)</code></pre>
+<pre><code>##     X Gross.domestic.product.2012 X.1           X.2          X.3 X.4 X.5
+## 1                                  NA                                 NA
+## 2                                  NA               (millions of      NA
+## 3                         Ranking  NA       Economy  US dollars)      NA
+## 4                                  NA                                 NA
+## 5 USA                           1  NA United States  16,244,600       NA
+## 6 CHN                           2  NA         China   8,227,103       NA
+##   X.6 X.7 X.8
+## 1  NA  NA  NA
+## 2  NA  NA  NA
+## 3  NA  NA  NA
+## 4  NA  NA  NA
+## 5  NA  NA  NA
+## 6  NA  NA  NA</code></pre>
+<pre class="r"><code>#The first few observations are blank data and unspecific column names
+Brains &lt;-read.csv(&quot;EDU.csv&quot;, header = TRUE)
+names(Brains)</code></pre>
+<pre><code>##  [1] &quot;CountryCode&quot;                                      
+##  [2] &quot;Long.Name&quot;                                        
+##  [3] &quot;Income.Group&quot;                                     
+##  [4] &quot;Region&quot;                                           
+##  [5] &quot;Lending.category&quot;                                 
+##  [6] &quot;Other.groups&quot;                                     
+##  [7] &quot;Currency.Unit&quot;                                    
+##  [8] &quot;Latest.population.census&quot;                         
+##  [9] &quot;Latest.household.survey&quot;                          
+## [10] &quot;Special.Notes&quot;                                    
+## [11] &quot;National.accounts.base.year&quot;                      
+## [12] &quot;National.accounts.reference.year&quot;                 
+## [13] &quot;System.of.National.Accounts&quot;                      
+## [14] &quot;SNA.price.valuation&quot;                              
+## [15] &quot;Alternative.conversion.factor&quot;                    
+## [16] &quot;PPP.survey.year&quot;                                  
+## [17] &quot;Balance.of.Payments.Manual.in.use&quot;                
+## [18] &quot;External.debt.Reporting.status&quot;                   
+## [19] &quot;System.of.trade&quot;                                  
+## [20] &quot;Government.Accounting.concept&quot;                    
+## [21] &quot;IMF.data.dissemination.standard&quot;                  
+## [22] &quot;Source.of.most.recent.Income.and.expenditure.data&quot;
+## [23] &quot;Vital.registration.complete&quot;                      
+## [24] &quot;Latest.agricultural.census&quot;                       
+## [25] &quot;Latest.industrial.data&quot;                           
+## [26] &quot;Latest.trade.data&quot;                                
+## [27] &quot;Latest.water.withdrawal.data&quot;                     
+## [28] &quot;X2.alpha.code&quot;                                    
+## [29] &quot;WB.2.code&quot;                                        
+## [30] &quot;Table.Name&quot;                                       
+## [31] &quot;Short.Name&quot;</code></pre>
+<pre class="r"><code>#Country code is common unique variable between the data sets
+
+#Removing blank rows and deleting unneccessary columns
+GDP12 &lt;-Monies[-c(1,2,3,4), ]
+GDP12 &lt;-subset(GDP12, select = -X.1)
+GDP12 &lt;-GDP12[1:4]
+#Renaming GDP data, sorting data alphabetically, and deleting additional blank rows that floated up from the bottom of the sheet 
+names(GDP12)&lt;- c(&quot;CountryCode&quot;,&quot;Ranking&quot;,&quot;CountryName&quot;,&quot;GDPinUSD&quot;)
+GDP12sort&lt;-arrange(GDP12,CountryCode)
+GDP12short &lt;-GDP12sort[-c(1:98), ]
+#Merging data by country code
+mergeddata &lt;-merge(x=GDP12short, y=Brains, by=&quot;CountryCode&quot;)
+str(mergeddata, vec.len = 1, give.head = TRUE, give.length = 1, width = 1, list.len= 5)</code></pre>
+<pre><code>## 'data.frame':    224 obs. of  34 variables:
+##  $ CountryCode                                      : Factor w/ 229 levels &quot;&quot;,&quot;ABW&quot;,&quot;ADO&quot;,..: 2 3 ...
+##  $ Ranking                                          : Factor w/ 195 levels &quot;&quot;,&quot;.. Not available.  &quot;,..: 72 1 ...
+##  $ CountryName                                      : Factor w/ 230 levels &quot;&quot;,&quot;  East Asia &amp; Pacific&quot;,..: 20 15 ...
+##  $ GDPinUSD                                         : Factor w/ 207 levels &quot;&quot;,&quot; 1,008 &quot;,&quot; 1,129 &quot;,..: 65 192 ...
+##  $ Long.Name                                        : Factor w/ 234 levels &quot;American Samoa&quot;,..: 5 104 ...
+##   [list output truncated]</code></pre>
+<pre class="r"><code>#Numeric variables like ranking and GDP are being represented as factors
+
+#Removing data for countries that have no ranking or have na data for ranking
+mergeddata &lt;-arrange(mergeddata,Ranking)
+mergedclean &lt;-mergeddata[-c(1:35), ]
+mergedclean2 &lt;-subset(x=mergedclean,  !is.na(Ranking))
+#Converting Variables Ranking and GDP into numeric, resorting and removing NA's that were introduced
+mergedclean2$Ranking &lt;-as.numeric(as.character(mergedclean2$Ranking))
+mergedclean3 &lt;-mergedclean2
+mergedclean3$GDPinUSD &lt;-gsub(&quot;,&quot;, &quot;&quot;,mergedclean3$GDPinUSD)
+mergedclean3$GDPinUSD &lt;-as.numeric(as.character(mergedclean3$GDPinUSD))
+mergedclean2 &lt;-arrange(mergedclean3,GDPinUSD)
+mergedclean2 &lt;-subset(x=mergedclean2,  !is.na(Ranking))</code></pre>
+</div>
+</div>
 </div>
 <div id="critical-questions-on-merged-data" class="section level1">
 <h1>Critical Questions on Merged Data</h1>
-<div id="question-1" class="section level4">
-<h4>Question 1</h4>
+<div id="question-1" class="section level3">
+<h3>Question 1</h3>
 <div id="how-many-ids-match-between-the-two-data-sets" class="section level5">
 <h5>How many ID’s match between the two data sets?</h5>
-<p>238 *The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.</p>
+<pre class="r"><code>dim(mergeddata)</code></pre>
+<pre><code>## [1] 224  34</code></pre>
+</div>
+<div id="section" class="section level5">
+<h5>224</h5>
+<div id="the-total-number-of-observations-however-will-have-to-be-trimmed-down-to-190-as-those-are-the-countries-we-have-rankings-and-gdp-data-for." class="section level6">
+<h6>*The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.</h6>
 </div>
 </div>
-<div id="question-2" class="section level4">
-<h4>Question 2</h4>
+</div>
+<div id="question-2" class="section level3">
+<h3>Question 2</h3>
 <div id="if-the-data-is-sorted-in-ascending-order-by-gdp-what-is-the-13th-country-in-the-resulting-data-frame" class="section level5">
 <h5>If the data is sorted in ascending order by GDP, what is the 13th country in the resulting data frame?</h5>
-<p>St. Kitts and Nevis. This is an island country in the Carribean located in a chain of islands on the Lesser Antilles. It is known as the smalles sovereign state in the Western Hemisphere, both in population and area- yet it is 10 times the size of Tuvalu, the country with the lowest GDP on the list.</p>
+<pre class="r"><code>print(mergedclean2[(&quot;13&quot;), c(&quot;CountryCode&quot;, &quot;Ranking&quot;, &quot;CountryName&quot;)])</code></pre>
+<pre><code>##    CountryCode Ranking         CountryName
+## 13         KNA     178 St. Kitts and Nevis</code></pre>
+</div>
+<div id="st.kitts-and-nevis." class="section level5">
+<h5>St. Kitts and Nevis.</h5>
+</div>
+<div id="this-is-an-island-country-in-the-carribean-located-in-a-chain-of-islands-on-the-lesser-antilles." class="section level5">
+<h5>This is an island country in the Carribean located in a chain of islands on the Lesser Antilles.</h5>
+<div id="it-is-known-as-the-smalles-sovereign-state-in-the-western-hemisphere-both-in-population-and-area--yet-it-is-10-times-the-size-of-tuvalu-the-country-with-the-lowest-gdp-on-the-list." class="section level6">
+<h6>It is known as the smalles sovereign state in the Western Hemisphere, both in population and area- yet it is 10 times the size of Tuvalu, the country with the lowest GDP on the list.</h6>
 </div>
 </div>
-<div id="question-3" class="section level4">
-<h4>Question 3</h4>
+</div>
+<div id="question-3" class="section level3">
+<h3>Question 3</h3>
 <div id="oecd-analysis" class="section level5">
 <h5>OECD Analysis</h5>
-<p>91.91304 is the mean of “High income: nonOECD” groups 32.96667 is the mean of “High income: OECD” Organisation for Economic Co-operation and Development (“OECD”) is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.</p>
+</div>
+<div id="is-the-mean-of-high-income-nonoecd-groups" class="section level5">
+<h5>91.91304 is the mean of “High income: nonOECD” groups</h5>
+</div>
+<div id="is-the-mean-of-high-income-oecd" class="section level5">
+<h5>32.96667 is the mean of “High income: OECD”</h5>
+<div id="organisation-for-economic-co-operation-and-development-oecd-is-an-intergovernmental-coalition-that-promotes-economic-development.-as-there-are-only-35-countries-as-members-and-the-average-ranking-of-these-countries-is-approximately-32-it-can-be-concluded-that-whatever-economic-strategies-this-organization-is-conducting-are-working-as-they-triumph-in-gdp-over-their-similar-situated-high-income-counterparts." class="section level6">
+<h6>Organisation for Economic Co-operation and Development (“OECD”) is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.</h6>
 </div>
 </div>
-<div id="question-4" class="section level4">
-<h4>Question 4</h4>
-<div id="the-distribution-of-gdp-value-of-all-countries-with-color-to-indicate-income-groups" class="section level5">
-<h5>The distribution of GDP value of all countries, with color to indicate income groups</h5>
-<pre><code>qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)</code></pre>
+</div>
+<div id="question-4" class="section level3">
+<h3>Question 4</h3>
+<div id="the-distribution-of-gdp-value-of-all-countries-with-color-to-indicate-income-groups" class="section level4">
+<h4>The distribution of GDP value of all countries, with color to indicate income groups</h4>
+<div id="see-graph-below" class="section level5">
+<h5>See graph below</h5>
+<pre class="r"><code>qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)</code></pre>
+<p><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAqAAAAHgCAMAAABNUi8GAAAA+VBMVEUAAAAAADoAAGYAOmYAOpAAZpAAZrYAsPYAv30zMzM6AAA6ADo6AGY6OmY6OpA6ZrY6kNtNTU1NTW5NTY5NbqtNjshmAABmADpmAGZmOgBmOjpmZgBmZjpmkJBmtrZmtv9uTU1uTW5uTY5ubqtuq+SOTU2OTW6OTY6ObquOyP+QOgCQOjqQZgCQkDqQkGaQtpCQ27aQ2/+jpQCrbk2rbm6rbo6rjk2ryKur5P+2ZgC2Zjq225C2/7a2///Ijk3I///bkDrb25Db///kq27k///na/Pr6+vy8vL4dm3/tmb/yI7/25D/29v/5Kv//7b//8j//9v//+T///+A3QeuAAAACXBIWXMAAA7DAAAOwwHHb6hkAAAYxUlEQVR4nO2dDXvbtnqGlSyLXKfrrLRNc/bltU3bOWennZ12tbdT20vizB+zE+v//5gRAClRsohXskg8EH3f11VLol49Voy7IEAR1GAMkDED9RsAiIGgkDUIClmDoJA1CApZg6CQNS0L+mGOOxsMMqvP7O2s/PZ7AIIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqE3Xgh4cHHTYAggaL+8BHQt6cLCaobm1cLfxCGqDoMJ4BLVBUGE8gtowBhXGI6gNs3hhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1iQt6/d2Jv303Go2+PJl78uMPo6/e+6dGo71yW+IWQNB4eQ+ICnpZWXm8d/fJ2zd743dfh7pC1EDiFkDQeHkPiAl6/Pz30IPe/nroNxR9pjf2408n4UfoYT/+eFi9JHELIGi8vAcstYsvxPR78eNXoc/0gl5//75Us+xHPyvo+u3CQ2MpQa+/PXS9qNOxcPPSjzpfuf26F7TWgdKDZlXfrTppWG6S5Dje8x3p88P5HnQ6AkXQvOo7syYhKwn6U/lodgxa7PgnJG4BBI2X94ClBHV95O1vJ07FaXd5+yaMSKsZlCdxCyBovLwH2IK6/96Vu/Yf/E1JOA46MwRF0Kzqu5ImJXySJIxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2rQsKEC70IMK4+lBbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGG8SNCrZ/v3advTQcHuGnLcCwQVxm+SoJ9eP/5jPL4Y7Kzlx+ogqDB+kwS9cH4W3eiTt2vocQ8QVBivE/Tq2S/bfn/96fVg8HQ8uQ3bd66mTwYvi7uTrvPq878UWycv2C8Dfx4MupAXQYXxQkG3C5lOnWZPxzcvdsfu1v0Xtg+mT1ZdpiuqXr79dDx9QSXodlnfNggqjFcKult2fGFv73fgxY+wvXzSbyzNDCIWHeuj8NrJCyaC7t579hUFQYXxyl38/tTBggvXT9a2+x9+2j4I06KqB61q5l/gb2vdbGsgqDA+d0FrY8pqDIqgWdVn9nbaF3Syi3+0P7PHDvY+qu2xT4PKE0HnXhB28Z//0a5OYwSVxusFreY683Oe8smim5xYehSOgz5565+uXnDzYqe4fcQkSVOf2dtpX9C7h5lqgvqNj/ar3ftF+UlS6HWrF7qJ0798Ew4zdeAngirje/RZfBcTeA+CCuMR1AZBhfEIaoOgwvgeCdoZCCqMR1CbuKDX3534248/jL56P/9k2Phu5NgrtyVuAQSNlzfwvwtZw6IOiQp6OfrSC3r7Zm/87uu5J2sbLyf2Jm4BBI2XN9AXQY+f/x560I8/nfjOtOgzvbHu8WRjce/Hw+oliVsAQePlDfRF0Mku/vr7997C41ehz/SCVhvHVT/6WUHXbxfaoHeCul144aLTsXDz0o86X5UbZzpQetCs6puatXeClp1lsYcfjZ4fzvegl7X5U+IWQNB4eQO9E7Qcbnovq8fTMWix45+QuAUQNF7eQO8EvX0TBp+FitPustp4++t0D4+gWdU3NWu/BC2n707M4ub51MZq448Imml9U7M2ChpO6Cx+Ts/sXHRvHU7LU6K23blR/qTSgV9tFzbcPeGZT5KE8XJBz8/PFws6rW35JGR3lr47h3QS60+EPnry1m9YcEo+ggrj1YKen9cNHc/1oDcvBn/zD/tXn/9j2bG5zV/8u39QPFV0fsXPwq5Pf/55MNi58GuXwpYyZVrrtoVHNy/nuuibb8LJpbvVi+ZXLtcF9Wekrndxk8QtgKDx8rUEPdpxp9Nfbe+EBUh+c3hQ+ORujsoHT/1K5PIlp9VZy9ULQ1X5KCRNfCzXNo0nvzr4uljQcG2TQvh1lt8nbgEEjZevLKgfCBY9XqGL6+w+/XnfiTPj7aT7cwWFUEWNq3N3nV6hjyyNK2OK7eWji6Dv0W74TYWxE599pgtqErRaw1e7hgSCdhuvFrR5DOp3528bBf2i7FFdQV3QF+XEpyZoWTUjaK0HnezTzR7UdduzpiJobm8n6Sz+Pj3oy7nZ1Z0e1BqDXtxxbyLodAJVrZVG0NzeTtrDTOUYdIGgrjMrbsox6FTQcrw5I2g1Bi0fuUn7/WbxCJo+Pm9Bix323y7uQedm8VNBw/bpwaqytpzZ++0X9eOg7t6yx0ERNH18doLO08WVGFYEQYXxWQtaLopXUxN0UIGgieKzFjQT+CRJGI+gNggqjEdQm5qgp2FittZl8hO3AILGy3vAVNALf5mocL2ye5O4BRA0Xt7ARvag/hNOf5VHPklKFY+gNrOHmarLkt47LnELIGi8vIHNFdR3ngiaKh5BbWZOFgmXyD1iF58oHkFtZk63C18wss4py4lbAEHj5Q1spqDjI3eEyV1vfI24xC2AoPHyBjZU0DZI3AIIGi9vAEFTtQCCxssbaBS03WXHq64wXsjdk0XWmMMjaF71Ta00cfLg4GCxoNPa+59xt/IK44Xc7UEv1hmEJm4BBI2XN1Dzs2bouN1lx6uvMF7Igl380Rpfd5O4BRA0Xt7AcoKuuex49RXGC1kgKAfqU8XnJ2iLy45XX2G8EAQVxqsFbR6DtrDsePUVxgtBUGG8XNDYLH7dZcerrzBeCGNQYXzWgq677Hj1FcYLYRYvjM9b0DWXHa++wnghd4+D8lFnsvjsBJ0np2XH7ZC4BRA0Xt7AUoLmtuy4HRK3AILGyxtYugfNgBlBJ4fB7h2XuAUQNF7ewKYKGs5XXosFf9HhcNhZCyBovLyBTRV02Zl/hLt/0eFwFUNza+Fu41WCbhKzPSiCJo2nB7WZGYOu8xlS4O5fFEF19U2ttKmCVodC250kMQaV1Te10qYK2gKJWwBB4+UNIGiqFkDQeHkDGyloMYXvZhffZQsgaLy8gY0UtB0StwCCxssbQNBULYCg8fIGNlTQozVXdDoStwCCxssbaBS0+ewl2XlNU0HdJZlO1zU0cQsgaLy8gYmTW1tbSwoqY/ab5tb+LClxCyBovLyBmp81Q8dTQf2pyP68+Wf74Rz5pdcct83s5RfX+p5OR+IWQNB4eQOmoGHpxunO+LQw8nRnvPKa4/ZAUGF8roJW36/5xdv/+vlpWB684prj9kBQYbxa0KYxaLmg+OblX1/+9+d/fTm3pHOZNcftgaDCeLmgDbP4snscH/3z3xeDTL/bXnHNcXvwTXPC+FwFrZYPXwzCKHS8+prj1uBAvTA+P0H9mp+n1YTcz+EfV3v95dYct03LgsIm0ChohtQFvRissKB+MYm7CHrQeHkDmynop9e+M795sc44InELIGi8vIHNFLT6grm1ZvKJWwBB4+UNbKSg0085+SrEVPEIajN7HNTD5RdTxasE3SQQVBhPD2qDoMJ4BLVBUGE8gtrwUacwHkFt+KhTGI+gNggqjEdQGwQVxiOoTU1QN0068iez3J/ELYCg8fIGNlNQt+TEfQXNWlcJTdwCCBovb6BR0FVXdZb15aeQtS/tqj+7HrVlx0/LH3zUmSpeLuhwOFxL0JIGQVth7jioE5TjoKni1YL6a7cuEnR+2XH5LcZ/9yenRm2pcfWlyH/aLW/KDdOTnNdeqsyBemF8toLOLzsOK4qvtsuOcrLUuPpCuqIq3MwsP25lqXLtbKbqLDt28anicxV0ftlxuaK4GnFOl3lUX+n5ere8cRsmy49bWapcOx/0cdW9M0lKFK8WtGkMOr/suFxRvFBQv/Fod3ozXX7cylLl+sXDQuo2h5lSxcsFbZjFzy87Lju5JXvQSY/YylLl+oF6v6ZvvYV5iVsAQePlDZiHmeaXHYfHCwVdOAYNy49bWarMJ0nC+PwEbVh2PPMtxnOCfnrtZ/HhZrosedzSUmUEFcZnJ2iGIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjVYJuEggqjKcHtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoTQpBDw4OOmoBBI2XN4CgM3/Rg4PlDc2thbuNR1AbBBXGZydoOKFu+aWZSZcdt8KivyiCquqbWmni5NnZ2VqCliRZdtwOC/+ijEFF9U2tVPOzZui4JujNy7/4M4zDzTiHZcftkLgFEDRe3sASgr548vbicXWTxbLjdkjcAggaL29gGUF3/brO8iaLZcetkLgFEDRe3oA9BnXmjI92q5s8lh23QeIWQNB4eQONs3gv5LjQyd0pu06/QD6PZcctkLgFEDRe3kCjoP7aXO4aMzcvnoZrMvkblh3nWp/Z20lwoN5dINbNrr/5Jz/tDjcsO861PrO3k+6TpLCvr26UIKgwHkFtEFQYn6+g+YCgwngEtUFQYTyC2iCoMB5BbRBUGK8SdJNAUGE8gtogqDAeQW0QVBiPoDYIKoxHUJuYoO9Go9GXJ+7exx9GX72ff7rcePtm9Pyw2pa4BRA0Xt4DYoIe75V3bt/sjd99PfdstbGoupzYm7gFEDRe3gMigt7+WnWMH386GV9/d+L6TN+jusfVRn9/QuIWQNB4eQ+ICFroOBr5TvT6+/fjjz8ejo9fhY7US1luvP7+P8td/GcFSd4zPCAigl5/e1j2om4XXrjoHC3cvBw5XpUbr/91z7saSNxF0IPGy3uANYv349Cys/RdqustZ3vQ0LsGErcAgsbLe8BSgs4PN2fGoP+GoLnWd+hNMiKCun347W/Oyds3YfBZjEGnE/bJRnbxudZ37E4SjOOgxQ69nL47MYub6SHP2sYvJxP5xC2AoPHyHsAnScJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILaIKgwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUJs0gh4cHHTSAggaL+8BSQQ9OFjW0NxauNt4BLVBUGE8gtogqDAeQW0YgwrjEdSGWbwwHkFtEFQYj6A2CCqMR1AbBBXGI6gNggrjEdQGQYXxCGqDoMJ4BLVBUGE8gtogqDAeQW0QVBiPoDYIKoxHUBsEFcYjqA2CCuMR1AZBhfEIaoOgwngEtUkkKCcsK+rbbVsNyU5YXs7Q3Fq423gEtUFQYTyC2iQUdBlDc2vhbuMR1KZlQZsIhqb5XdAnUs3il+xCc+uCuo2nB7VBUGE8gtokOw7KGDR9fbttqyHhgfqzs7O2WwBB4+U9IJ2gZ2dLGJpbC3cbj6A2CCqMR1AbBBXGI6gNY1BhPILacDaTMB5BbZIKWvShxsGm3Fq423gEtUkpqB+Fxg3NrYW7jUdQGwQVxiOoDYIK4xHUJv0YdDiMOJpbC3cbj6A2qWfxQ0ezobm1cLfxCGqDoMJ4BLVBUGE8gtokP1Af9TO7Fu42HkFt+CRJGI+gNggqjEdQG4mgzWfX59bC3cYjqI1C0Mj6pNxauNt4BLVBUGE8gtogqDAeQW0YgwrjEdRGNItvUjS3Fu42HkFtNII27uRza+Fu4xHUBkGF8Qhqg6DCeAS10Y1BF67xzK2Fu41HUBvVR53h7Pp1WwBB4+U9QCvoHUNza+Fu4xHUBkGF8QhqIzubyfuJoJ3Wt9u2GoSn2y2ayOfWwt3GI6gN54MK4xHURirocDhcrwUQNF7eA5SC+gV0a7UAgsbLewCCCuMR1EYu6OzR+txauNt4BLVRj0Hdwabze7cAgsbLe4BU0PJo/fnU0NxauNt4BLXRHmYKR+vPzye7+dxauNt4BLVRHwf1fp5PDtnn1sLdxiOojVrQDx+8n5WhubVwt/EIaqMXtPyu7oOzpb+ze8X8NeozEw5B1+Zef9FS0NJQ+7tqVs2/f31mwiHo2tzvLzor6CqGImi0vAdkIWhYATIR9MAffrrzOX0LLYagG0ceglYHnCpRS0PPzSEpgkbLe0Auglb1QdRK0MLQs/PzyE4fQaPlPSA3Qavx6FRQb+h5uHL4cH6ej6DR8h6QnaAf6n5OBa0bGn4Mz8pPSleZVSHoppGfoBNKPxcIesdQV+lKVspf8e1sYH27bashY0EdEz/jgg4rQw+2tqKaIuimkbmggXk/I4J6Q/2doRsjhJJ7v5/MhEPQWT7+MPrq/dy9u0/PPJegBRb5OS/ovKH+Tth25l7o7oa++exsy+MHvUP/kvNzlzGcPnQbAu61a779lPXt65KeiKC3b/bG776evXf36dnnEreArx/W/WwQtE1DixdthS49vHo4dP+5vK0zHx4KP2yFp3x1SHAPq5xiS/Xr3ZPVq4r/ql9f/3k2faP+fxL/bre2yvdcvfUHJujHn07G19+d1O4VneWX1eNq47TKoRB0ysTPbgVd0tDqZxeGni1laAJ/Oici6PX378cffzys3Tt+FTpLL2i5cVr1WUGidx1lkZ8PRFD1n74DIoJeflWpV95zDwo3L0eOV+XGaZVD24M20Laf+Qo6/9fpAav0oMUefjR6ftjUgzqSCJeufkH50n4yBm2FVcag3svqmRzHoK3XZ/Z2mMXPcPvm1WQWH+4VY9DLySGlcuO0ypG4BRA0Xt4D7OOg5fS9POT5/HDu6eTHQVPWZ/Z2EHRtErcAgsbLewCCCuMR1AZBhfEIaoOgwngEtUFQYTyC2iCoMB5BbRBUGI+gNggqjEdQGwQVxiOoDYIK4xHUBkGF8Qhqg6DCeAS1QVBhPILatCzoPF2vAek4f8Pffh9AUGE8gtogqDAeQW0QVBiPoDYdCwqwHggKWYOgkDUIClmDoJA1XQq68KKNbfFuNHJXMuvmd/grUSxaVt1mfqf/gt7QoaALL9rYGsd73f2OSyfOwstLtpjf6b+gP3Qo6OxFcVrm9tfDzn7H8fPf3cUqFl3ap8X8Lv8FPaJDQWcvK9Yy/kJme139DmfMwoujtZjf7b+gN3Qo6OyFGVvm+ttD1wd19DucQAsvL9lifrf/gt6wqT2o53hvg3tQT2f/gt6wqWNQz/FeR7/jutMx6IygjEHjdDqLf9Xd/NTtGW9/O+nodzhjFl5essX8bv8FvWGTj4P6iz1v9HHQ7v4FvYFPkiBrEBSyBkEhaxAUsgZBIWsQFLIGQSFrEBSy5gEL+un1wLNz96mrZ/u1GxDyoAX1al5t7955CjOzAUHHR0/vPIWg2YCgXtCrbb+vv3r2S3Fn1wt6MXha3FRbxjcvBo9++fwP8Xt+eCDoRaHfzYtCwdPHf1xtP3nrbwszt72n1ZabFztF1WMETc2DFjRMkgo3/+/teDwurRyX/ebOzJYL5+YpgibnQQvqHNwO+/mLwtRH+37s6bX03npVw5bToiMdX7GLT85DF9Tv4Yud96P9uo5Fv3lUGImgeh68oOOjYr994fS7qPWgz/bdoLMmqN/FX7CLTw6CXm0/dW4WtzOCjk/9w2oLkyQRCDo+HeyMj4oR6H+82K0L+un1k/+ZCuoPM/2MoMl5wIKujh8JQFIQdDncIODT67ufOUHHIOiSnA4GA/xMD4JC1iAoZA2CQtYgKGQNgkLWIChkDYJC1vw/eKD6BCMJ9HkAAAAASUVORK5CYII=" /><!-- --></p>
 </div>
 </div>
 <div id="question-5" class="section level4">
@@ -179,6 +342,7 @@ summary(highOECD2$GDPinUSD)
 low &lt;-ifelse(mergedclean2$Income.Group == &quot;Low income&quot;, mergedclean2$GDPinUSD, NA)
 low &lt;-low[!is.na(low)]
 summary(low)</code></pre>
+</div>
 </div>
 </div>
 </div>
