@@ -224,8 +224,8 @@ mergedclean2 <-arrange(mergedclean3,GDPinUSD)
 mergedclean2 <-subset(x=mergedclean2,  !is.na(Ranking))
 ```
 # Critical Questions on Merged Data
-### Question 1
-##### How many ID's match between the two data sets?
+## Question 1
+### How many ID's match between the two data sets?
 
 ```r
 dim(mergeddata)
@@ -237,8 +237,8 @@ dim(mergeddata)
 ##### 224
 ###### *The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.
 
-### Question 2
-##### If the data is sorted in ascending order by GDP, what is the 13th country in the resulting data frame?
+## Question 2
+### If the data is sorted in ascending order by GDP, what is the 13th country in the resulting data frame?
 
 ```r
 print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
@@ -252,8 +252,8 @@ print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
 ##### This is an island country in the Carribean located in a chain of islands on the Lesser Antilles.
 ###### It is known as the smalles sovereign state in the Western Hemisphere, both in population and area- yet it is 10 times the size of Tuvalu, the country with the lowest GDP on the list.
 
-### Question 3
-##### OECD Analysis
+## Question 3
+### OECD Analysis
 
 ```r
 ddply(mergedclean2, c("Income.Group"), function(x) mean(x$Ranking))
@@ -271,8 +271,8 @@ ddply(mergedclean2, c("Income.Group"), function(x) mean(x$Ranking))
 ##### 32.96667 is the mean of "High income: OECD"
 ###### Organisation for Economic Co-operation and Development ("OECD") is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.
 
-### Question 4
-#### The distribution of GDP value of all countries, with color to indicate income groups
+## Question 4
+### The distribution of GDP value of all countries, with color to indicate income groups
 ##### See graph below
 
 ```r
@@ -281,8 +281,8 @@ qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)
 
 ![](Case_Study_1_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-#### Question 5
-##### Summary Statistics for all 5 Income Groups
+## Question 5
+### Summary Statistics for all 5 Income Groups
 
 ```r
 ddply(mergedclean2, c("Income.Group"), function(x) summary(x$GDPinUSD))
@@ -298,8 +298,8 @@ ddply(mergedclean2, c("Income.Group"), function(x) summary(x$GDPinUSD))
 ```
 ##### The "High income: OECD" category holds the highest GDP earning country and the highest average GDP overall. "Low middle income" category holds the country that earns the least GDP. "Low income" category has the lowest
 
-#### Question 6
-##### How many countries are Lower middle income but among the 38 nations with highest GDP?
+## Question 6
+### How many countries are Lower middle income but among the 38 nations with highest GDP?
 
 ```r
 summary(mergedclean2$Ranking)
