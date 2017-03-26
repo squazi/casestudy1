@@ -1,21 +1,21 @@
 # Case Study 1
 squazi  
 March 21 2017  
-#Introduction
-###The following analyzes data that ranks the GDP of 190 countries by supplementing it with data that was intended to analyze educational statistics for a wide array of countries.The intent is discover correlation/causation of a country's GDP with other relevant attributes.
+# Introduction
+### The following analyzes data that ranks the GDP of 190 countries by supplementing it with data that was intended to analyze educational statistics for a wide array of countries.The intent is discover correlation/causation of a country's GDP with other relevant attributes.
 
-##Relevant Data
-####The data files can be found at: https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv & https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv
-####Header's are included in these comma seperated value files; however, similar variables between the data sets are not named synonymously. 
+## Relevant Data
+#### The data files can be found at: https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv & https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv
+#### Header's are included in these comma seperated value files; however, similar variables between the data sets are not named synonymously. 
 
-##Common abbreviaions:
-####-GDP: Gross Domestic Product
-####-Commonly understood abbreviations for countries: Can be referenced at http://www.worldatlas.com/aatlas/ctycodes.htm
+## Common abbreviaions:
+#### -GDP: Gross Domestic Product
+#### -Commonly understood abbreviations for countries: Can be referenced at http://www.worldatlas.com/aatlas/ctycodes.htm
 
-##Pre-analyis
-#####By viewing both tables, you can tell that there is an easily discernible unique variable between both tables, the trigram country code, however the dataset one dataset does not label it. This data also has a series of unnecssary blank columns that will need to be removed.
-#####The other set of data has a wide variety of usable variables, but some of them are redundant.
-#####I will work on tidying up the shorter set of data with the incorrect varables, trim extraneous data, merge it with the fuller set of data, then analyze.
+## Pre-analyis
+##### By viewing both tables, you can tell that there is an easily discernible unique variable between both tables, the trigram country code, however the dataset one dataset does not label it. This data also has a series of unnecssary blank columns that will need to be removed.
+##### The other set of data has a wide variety of usable variables, but some of them are redundant.
+##### I will work on tidying up the shorter set of data with the incorrect varables, trim extraneous data, merge it with the fuller set of data, then analyze.
 
 
 ```r
@@ -89,7 +89,7 @@ library(plyr)
 ```
 
 ```r
-#Setting working directory, downloading both data files, and reading them into R as CSV files with the names "Monies"" and "Brains"
+# Setting working directory, downloading both data files, and reading them into R as CSV files with the names "Monies"" and "Brains"
 setwd("C:/Users/esunqua/Documents/R/Case Study 1")
 download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv",destfile="./GDP.csv")
 list.files()
@@ -143,7 +143,7 @@ head(Monies)
 ```
 
 ```r
-#The first few observations are blank data and unspecific column names
+# The first few observations are blank data and unspecific column names
 Brains <-read.csv("EDU.csv", header = TRUE)
 names(Brains)
 ```
@@ -183,17 +183,17 @@ names(Brains)
 ```
 
 ```r
-#Country code is common unique variable between the data sets
+# Country code is common unique variable between the data sets
 
-#Removing blank rows and deleting unneccessary columns
+# Removing blank rows and deleting unneccessary columns
 GDP12 <-Monies[-c(1,2,3,4), ]
 GDP12 <-subset(GDP12, select = -X.1)
 GDP12 <-GDP12[1:4]
-#Renaming GDP data, sorting data alphabetically, and deleting additional blank rows that floated up from the bottom of the sheet 
+# Renaming GDP data, sorting data alphabetically, and deleting additional blank rows that floated up from the bottom of the sheet 
 names(GDP12)<- c("CountryCode","Ranking","CountryName","GDPinUSD")
 GDP12sort<-arrange(GDP12,CountryCode)
 GDP12short <-GDP12sort[-c(1:98), ]
-#Merging data by country code
+# Merging data by country code
 mergeddata <-merge(x=GDP12short, y=Brains, by="CountryCode")
 str(mergeddata, vec.len = 1, give.head = TRUE, give.length = 1, width = 1, list.len= 5)
 ```
@@ -209,13 +209,13 @@ str(mergeddata, vec.len = 1, give.head = TRUE, give.length = 1, width = 1, list.
 ```
 
 ```r
-#Numeric variables like ranking and GDP are being represented as factors
+# Numeric variables like ranking and GDP are being represented as factors
 
-#Removing data for countries that have no ranking or have na data for ranking
+# Removing data for countries that have no ranking or have na data for ranking
 mergeddata <-arrange(mergeddata,Ranking)
 mergedclean <-mergeddata[-c(1:35), ]
 mergedclean2 <-subset(x=mergedclean,  !is.na(Ranking))
-#Converting Variables Ranking and GDP into numeric, resorting and removing NA's that were introduced
+# Converting Variables Ranking and GDP into numeric, resorting and removing NA's that were introduced
 mergedclean2$Ranking <-as.numeric(as.character(mergedclean2$Ranking))
 mergedclean3 <-mergedclean2
 mergedclean3$GDPinUSD <-gsub(",", "",mergedclean3$GDPinUSD)
@@ -223,9 +223,9 @@ mergedclean3$GDPinUSD <-as.numeric(as.character(mergedclean3$GDPinUSD))
 mergedclean2 <-arrange(mergedclean3,GDPinUSD)
 mergedclean2 <-subset(x=mergedclean2,  !is.na(Ranking))
 ```
-#Critical Questions on Merged Data
-###Question 1
-#####How many ID's match between the two data sets?
+# Critical Questions on Merged Data
+### Question 1
+##### How many ID's match between the two data sets?
 
 ```r
 dim(mergeddata)
@@ -234,11 +234,11 @@ dim(mergeddata)
 ```
 ## [1] 224  34
 ```
-#####224
-######*The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.
+##### 224
+###### *The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.
 
-###Question 2
-#####If the data is sorted in ascending order by GDP, what is the 13th country in the resulting data frame?
+### Question 2
+##### If the data is sorted in ascending order by GDP, what is the 13th country in the resulting data frame?
 
 ```r
 print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
@@ -248,12 +248,12 @@ print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
 ##    CountryCode Ranking         CountryName
 ## 13         KNA     178 St. Kitts and Nevis
 ```
-#####St. Kitts and Nevis. 
-#####This is an island country in the Carribean located in a chain of islands on the Lesser Antilles.
-######It is known as the smalles sovereign state in the Western Hemisphere, both in population and area- yet it is 10 times the size of Tuvalu, the country with the lowest GDP on the list.
+##### St. Kitts and Nevis. 
+##### This is an island country in the Carribean located in a chain of islands on the Lesser Antilles.
+###### It is known as the smalles sovereign state in the Western Hemisphere, both in population and area- yet it is 10 times the size of Tuvalu, the country with the lowest GDP on the list.
 
-###Question 3
-#####OECD Analysis
+### Question 3
+##### OECD Analysis
 
 ```r
 ddply(mergedclean2, c("Income.Group"), function(x) mean(x$Ranking))
@@ -267,13 +267,13 @@ ddply(mergedclean2, c("Income.Group"), function(x) mean(x$Ranking))
 ## 4  Lower middle income 107.70370
 ## 5  Upper middle income  92.13333
 ```
-#####91.91304 is the mean of "High income: nonOECD" groups
-#####32.96667 is the mean of "High income: OECD"
-######Organisation for Economic Co-operation and Development ("OECD") is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.
+##### 91.91304 is the mean of "High income: nonOECD" groups
+##### 32.96667 is the mean of "High income: OECD"
+###### Organisation for Economic Co-operation and Development ("OECD") is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.
 
-###Question 4
-####The distribution of GDP value of all countries, with color to indicate income groups
-#####See graph below
+### Question 4
+#### The distribution of GDP value of all countries, with color to indicate income groups
+##### See graph below
 
 ```r
 qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)
@@ -281,8 +281,8 @@ qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)
 
 ![](Case_Study_1_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
-####Question 5
-#####Summary Statistics for all 5 Income Groups
+#### Question 5
+##### Summary Statistics for all 5 Income Groups
 
 ```r
 ddply(mergedclean2, c("Income.Group"), function(x) summary(x$GDPinUSD))
@@ -298,8 +298,8 @@ ddply(mergedclean2, c("Income.Group"), function(x) summary(x$GDPinUSD))
 ```
 ##### The "High income: OECD" category holds the highest GDP earning country and the highest average GDP overall. "Low middle income" category holds the country that earns the least GDP. "Low income" category has the lowest
 
-####Question 6
-#####How many countries are Lower middle income but among the 38 nations with highest GDP?
+#### Question 6
+##### How many countries are Lower middle income but among the 38 nations with highest GDP?
 
 ```r
 summary(mergedclean2$Ranking)
