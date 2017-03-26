@@ -125,8 +125,8 @@ $(document).ready(function () {
 
 <div id="introduction" class="section level1">
 <h1>Introduction</h1>
-<div id="the-following-analyzes-data-that-ranks-the-gdp-of-190-countries-with-corresponding-educational-data-for-these-countries.the-intent-is-discover-correlationcausation-between-financial-success-and-education-on-an-aggregate-country-level-scale." class="section level3">
-<h3>The following analyzes data that ranks the GDP of 190 countries with corresponding educational data for these countries.The intent is discover correlation/causation between financial success and education on an aggregate country level scale.</h3>
+<div id="the-following-analyzes-data-that-ranks-the-gdp-of-190-countries-by-supplementing-it-with-data-that-was-intended-to-analyze-educational-statistics-for-a-wide-array-of-countries.the-intent-is-discover-correlationcausation-of-a-countrys-gdp-with-other-relevant-attributes." class="section level3">
+<h3>The following analyzes data that ranks the GDP of 190 countries by supplementing it with data that was intended to analyze educational statistics for a wide array of countries.The intent is discover correlation/causation of a country’s GDP with other relevant attributes.</h3>
 </div>
 <div id="relevant-data" class="section level2">
 <h2>Relevant Data</h2>
@@ -156,7 +156,7 @@ $(document).ready(function () {
 </div>
 <div id="i-will-work-on-tidying-up-the-shorter-set-of-data-with-the-incorrect-varables-trim-extraneous-data-merge-it-with-the-fuller-set-of-data-then-analyze." class="section level5">
 <h5>I will work on tidying up the shorter set of data with the incorrect varables, trim extraneous data, merge it with the fuller set of data, then analyze.</h5>
-<pre class="r"><code>#Loading Packages: repmis, diplyr, tidyr, &amp; ggplot2
+<pre class="r"><code>#Loading Packages: repmis, diplyr, tidyr, ggplot2, &amp; plyr
 library(repmis)
 library(dplyr)</code></pre>
 <pre><code>## Warning: package 'dplyr' was built under R version 3.3.3</code></pre>
@@ -171,20 +171,39 @@ library(dplyr)</code></pre>
 <pre class="r"><code>library(tidyr)</code></pre>
 <pre><code>## Warning: package 'tidyr' was built under R version 3.3.3</code></pre>
 <pre class="r"><code>library(ggplot2)
-#Setting working directory, downloading both data files, and reading them into R as CSV files with the names &quot;Monies&quot;&quot; and &quot;Brains&quot;
+library(plyr)</code></pre>
+<pre><code>## Warning: package 'plyr' was built under R version 3.3.3</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)</code></pre>
+<pre><code>## -------------------------------------------------------------------------</code></pre>
+<pre><code>## 
+## Attaching package: 'plyr'</code></pre>
+<pre><code>## The following objects are masked from 'package:dplyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize</code></pre>
+<pre class="r"><code>#Setting working directory, downloading both data files, and reading them into R as CSV files with the names &quot;Monies&quot;&quot; and &quot;Brains&quot;
 setwd(&quot;C:/Users/esunqua/Documents/R/Case Study 1&quot;)
 download.file(&quot;https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv&quot;,destfile=&quot;./GDP.csv&quot;)
 list.files()</code></pre>
-<pre><code>##  [1] &quot;~$Code.docx&quot;          &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;   
-##  [4] &quot;Case_Study_1.md&quot;      &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;  
-##  [7] &quot;Code.docx&quot;            &quot;EDU.csv&quot;              &quot;GDP.csv&quot;             
-## [10] &quot;obs-casestudy1.RData&quot;</code></pre>
+<pre><code>##  [1] &quot;~$final.xlsx&quot;         &quot;~$last.xlsx&quot;          &quot;Brains.csv&quot;          
+##  [4] &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;    &quot;Case_Study_1.md&quot;     
+##  [7] &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;   &quot;Code.docx&quot;           
+## [10] &quot;data2.csv&quot;            &quot;data2.xlsx&quot;           &quot;EDU.csv&quot;             
+## [13] &quot;final.csv&quot;            &quot;final.xlsx&quot;           &quot;GDP.csv&quot;             
+## [16] &quot;last.csv&quot;             &quot;last.xlsx&quot;            &quot;Monies.csv&quot;          
+## [19] &quot;mydata.xlsx&quot;          &quot;obs-casestudy1.RData&quot;</code></pre>
 <pre class="r"><code>download.file(&quot;https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv&quot;,destfile=&quot;./EDU.csv&quot;)
 list.files()</code></pre>
-<pre><code>##  [1] &quot;~$Code.docx&quot;          &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;   
-##  [4] &quot;Case_Study_1.md&quot;      &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;  
-##  [7] &quot;Code.docx&quot;            &quot;EDU.csv&quot;              &quot;GDP.csv&quot;             
-## [10] &quot;obs-casestudy1.RData&quot;</code></pre>
+<pre><code>##  [1] &quot;~$final.xlsx&quot;         &quot;~$last.xlsx&quot;          &quot;Brains.csv&quot;          
+##  [4] &quot;Case Study 1.Rmd&quot;     &quot;Case_Study_1.html&quot;    &quot;Case_Study_1.md&quot;     
+##  [7] &quot;Case_Study_1.Rmd&quot;     &quot;Case_Study_1_files&quot;   &quot;Code.docx&quot;           
+## [10] &quot;data2.csv&quot;            &quot;data2.xlsx&quot;           &quot;EDU.csv&quot;             
+## [13] &quot;final.csv&quot;            &quot;final.xlsx&quot;           &quot;GDP.csv&quot;             
+## [16] &quot;last.csv&quot;             &quot;last.xlsx&quot;            &quot;Monies.csv&quot;          
+## [19] &quot;mydata.xlsx&quot;          &quot;obs-casestudy1.RData&quot;</code></pre>
 <pre class="r"><code>Monies &lt;-read.csv(&quot;GDP.csv&quot;, header = TRUE)
 head(Monies)</code></pre>
 <pre><code>##     X Gross.domestic.product.2012 X.1           X.2          X.3 X.4 X.5
@@ -309,6 +328,13 @@ mergedclean2 &lt;-subset(x=mergedclean2,  !is.na(Ranking))</code></pre>
 <h3>Question 3</h3>
 <div id="oecd-analysis" class="section level5">
 <h5>OECD Analysis</h5>
+<pre class="r"><code>ddply(mergedclean2, c(&quot;Income.Group&quot;), function(x) mean(x$Ranking))</code></pre>
+<pre><code>##           Income.Group        V1
+## 1 High income: nonOECD  91.91304
+## 2    High income: OECD  32.96667
+## 3           Low income 133.72973
+## 4  Lower middle income 107.70370
+## 5  Upper middle income  92.13333</code></pre>
 </div>
 <div id="is-the-mean-of-high-income-nonoecd-groups" class="section level5">
 <h5>91.91304 is the mean of “High income: nonOECD” groups</h5>
@@ -334,15 +360,46 @@ mergedclean2 &lt;-subset(x=mergedclean2,  !is.na(Ranking))</code></pre>
 <h4>Question 5</h4>
 <div id="summary-statistics-for-all-5-income-groups" class="section level5">
 <h5>Summary Statistics for all 5 Income Groups</h5>
-<pre><code>#High-Income &amp; Non-OECD (dataframe reused from question 3)
-summary(highOECD$GDPinUSD)
-#High-Income &amp; OECD (dataframe reused from question 3)
-summary(highOECD2$GDPinUSD)
-#Low-Income
-low &lt;-ifelse(mergedclean2$Income.Group == &quot;Low income&quot;, mergedclean2$GDPinUSD, NA)
-low &lt;-low[!is.na(low)]
-summary(low)</code></pre>
+<pre class="r"><code>ddply(mergedclean2, c(&quot;Income.Group&quot;), function(x) summary(x$GDPinUSD))</code></pre>
+<pre><code>##           Income.Group  Min. 1st Qu. Median    Mean 3rd Qu.     Max.
+## 1 High income: nonOECD  2584   12840  28370  104300  131200   711000
+## 2    High income: OECD 13580  211100 486500 1484000 1480000 16240000
+## 3           Low income   596    3814   7843   14410   17200   116400
+## 4  Lower middle income    40    2549  24270  256700   81450  8227000
+## 5  Upper middle income   228    9613  42940  231800  205800  2253000</code></pre>
 </div>
+<div id="the-high-income-oecd-category-holds-the-highest-gdp-earning-country-and-the-highest-average-gdp-overall.-low-middle-income-category-holds-the-country-that-earns-the-least-gdp.-low-income-category-has-the-lowest" class="section level5">
+<h5>The “High income: OECD” category holds the highest GDP earning country and the highest average GDP overall. “Low middle income” category holds the country that earns the least GDP. “Low income” category has the lowest</h5>
+</div>
+</div>
+<div id="question-6" class="section level4">
+<h4>Question 6</h4>
+<div id="how-many-countries-are-lower-middle-income-but-among-the-38-nations-with-highest-gdp" class="section level5">
+<h5>How many countries are Lower middle income but among the 38 nations with highest GDP?</h5>
+<pre class="r"><code>summary(mergedclean2$Ranking)</code></pre>
+<pre><code>##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   48.00   95.00   95.31  143.00  190.00</code></pre>
+<pre class="r"><code>lastquestion &lt;-mergedclean2[1:6]
+lastquestion &lt;-subset(lastquestion, select = -Long.Name)
+attach(lastquestion)
+lastquestion$quantile[Ranking &lt;= 38] &lt;-5
+lastquestion$quantile[Ranking &gt; 38 &amp; Ranking &lt;= 76] &lt;-4
+lastquestion$quantile[Ranking &gt; 76 &amp; Ranking &lt;= 114] &lt;-3
+lastquestion$quantile[Ranking &gt; 114 &amp; Ranking &lt;= 152] &lt;-2
+lastquestion$quantile[Ranking &gt; 152 &amp; Ranking &lt;= 190] &lt;-1
+table(lastquestion$Income.Group, lastquestion$quantile)</code></pre>
+<pre><code>##                       
+##                         1  2  3  4  5
+##                         0  0  0  0  0
+##   High income: nonOECD  2  4  8  5  4
+##   High income: OECD     0  1  1 10 18
+##   Low income           11 16  9  1  0
+##   Lower middle income  16  8 12 13  5
+##   Upper middle income   9  8  8  9 11</code></pre>
+</div>
+</div>
+<div id="five-lower-middle-income-countries-are-in-the-highest-quantile-of-gdp" class="section level4">
+<h4>Five “Lower middle income”&quot; countries are in the highest quantile of GDP</h4>
 </div>
 </div>
 </div>

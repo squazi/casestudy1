@@ -2,7 +2,7 @@
 squazi  
 March 21 2017  
 #Introduction
-###The following analyzes data that ranks the GDP of 190 countries with corresponding educational data for these countries.The intent is discover correlation/causation between financial success and education on an aggregate country level scale.
+###The following analyzes data that ranks the GDP of 190 countries by supplementing it with data that was intended to analyze educational statistics for a wide array of countries.The intent is discover correlation/causation of a country's GDP with other relevant attributes.
 
 ##Relevant Data
 ####The data files can be found at: https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv & https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FEDSTATS_Country.csv
@@ -19,7 +19,7 @@ March 21 2017
 
 
 ```r
-#Loading Packages: repmis, diplyr, tidyr, & ggplot2
+#Loading Packages: repmis, diplyr, tidyr, ggplot2, & plyr
 library(repmis)
 library(dplyr)
 ```
@@ -55,6 +55,40 @@ library(tidyr)
 
 ```r
 library(ggplot2)
+library(plyr)
+```
+
+```
+## Warning: package 'plyr' was built under R version 3.3.3
+```
+
+```
+## -------------------------------------------------------------------------
+```
+
+```
+## You have loaded plyr after dplyr - this is likely to cause problems.
+## If you need functions from both plyr and dplyr, please load plyr first, then dplyr:
+## library(plyr); library(dplyr)
+```
+
+```
+## -------------------------------------------------------------------------
+```
+
+```
+## 
+## Attaching package: 'plyr'
+```
+
+```
+## The following objects are masked from 'package:dplyr':
+## 
+##     arrange, count, desc, failwith, id, mutate, rename, summarise,
+##     summarize
+```
+
+```r
 #Setting working directory, downloading both data files, and reading them into R as CSV files with the names "Monies"" and "Brains"
 setwd("C:/Users/esunqua/Documents/R/Case Study 1")
 download.file("https://d396qusza40orc.cloudfront.net/getdata%2Fdata%2FGDP.csv",destfile="./GDP.csv")
@@ -62,10 +96,13 @@ list.files()
 ```
 
 ```
-##  [1] "~$Code.docx"          "Case Study 1.Rmd"     "Case_Study_1.html"   
-##  [4] "Case_Study_1.md"      "Case_Study_1.Rmd"     "Case_Study_1_files"  
-##  [7] "Code.docx"            "EDU.csv"              "GDP.csv"             
-## [10] "obs-casestudy1.RData"
+##  [1] "~$final.xlsx"         "~$last.xlsx"          "Brains.csv"          
+##  [4] "Case Study 1.Rmd"     "Case_Study_1.html"    "Case_Study_1.md"     
+##  [7] "Case_Study_1.Rmd"     "Case_Study_1_files"   "Code.docx"           
+## [10] "data2.csv"            "data2.xlsx"           "EDU.csv"             
+## [13] "final.csv"            "final.xlsx"           "GDP.csv"             
+## [16] "last.csv"             "last.xlsx"            "Monies.csv"          
+## [19] "mydata.xlsx"          "obs-casestudy1.RData"
 ```
 
 ```r
@@ -74,10 +111,13 @@ list.files()
 ```
 
 ```
-##  [1] "~$Code.docx"          "Case Study 1.Rmd"     "Case_Study_1.html"   
-##  [4] "Case_Study_1.md"      "Case_Study_1.Rmd"     "Case_Study_1_files"  
-##  [7] "Code.docx"            "EDU.csv"              "GDP.csv"             
-## [10] "obs-casestudy1.RData"
+##  [1] "~$final.xlsx"         "~$last.xlsx"          "Brains.csv"          
+##  [4] "Case Study 1.Rmd"     "Case_Study_1.html"    "Case_Study_1.md"     
+##  [7] "Case_Study_1.Rmd"     "Case_Study_1_files"   "Code.docx"           
+## [10] "data2.csv"            "data2.xlsx"           "EDU.csv"             
+## [13] "final.csv"            "final.xlsx"           "GDP.csv"             
+## [16] "last.csv"             "last.xlsx"            "Monies.csv"          
+## [19] "mydata.xlsx"          "obs-casestudy1.RData"
 ```
 
 ```r
@@ -214,6 +254,19 @@ print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
 
 ###Question 3
 #####OECD Analysis
+
+```r
+ddply(mergedclean2, c("Income.Group"), function(x) mean(x$Ranking))
+```
+
+```
+##           Income.Group        V1
+## 1 High income: nonOECD  91.91304
+## 2    High income: OECD  32.96667
+## 3           Low income 133.72973
+## 4  Lower middle income 107.70370
+## 5  Upper middle income  92.13333
+```
 #####91.91304 is the mean of "High income: nonOECD" groups
 #####32.96667 is the mean of "High income: OECD"
 ######Organisation for Economic Co-operation and Development ("OECD") is an intergovernmental coalition that promotes economic development. As there are only 35 countries as members, and the average ranking of these countries is approximately 32, it can be concluded that whatever economic strategies this organization is conducting are working as they triumph in GDP over their similar situated, high-income, counterparts.
@@ -226,19 +279,57 @@ print(mergedclean2[("13"), c("CountryCode", "Ranking", "CountryName")])
 qplot(Ranking, GDPinUSD, data = mergedclean2, color = Income.Group)
 ```
 
-![](Case_Study_1_files/figure-html/unnamed-chunk-4-1.png)<!-- -->
+![](Case_Study_1_files/figure-html/unnamed-chunk-5-1.png)<!-- -->
 
 ####Question 5
 #####Summary Statistics for all 5 Income Groups
 
+```r
+ddply(mergedclean2, c("Income.Group"), function(x) summary(x$GDPinUSD))
+```
 
 ```
-#High-Income & Non-OECD (dataframe reused from question 3)
-summary(highOECD$GDPinUSD)
-#High-Income & OECD (dataframe reused from question 3)
-summary(highOECD2$GDPinUSD)
-#Low-Income
-low <-ifelse(mergedclean2$Income.Group == "Low income", mergedclean2$GDPinUSD, NA)
-low <-low[!is.na(low)]
-summary(low)
+##           Income.Group  Min. 1st Qu. Median    Mean 3rd Qu.     Max.
+## 1 High income: nonOECD  2584   12840  28370  104300  131200   711000
+## 2    High income: OECD 13580  211100 486500 1484000 1480000 16240000
+## 3           Low income   596    3814   7843   14410   17200   116400
+## 4  Lower middle income    40    2549  24270  256700   81450  8227000
+## 5  Upper middle income   228    9613  42940  231800  205800  2253000
 ```
+##### The "High income: OECD" category holds the highest GDP earning country and the highest average GDP overall. "Low middle income" category holds the country that earns the least GDP. "Low income" category has the lowest
+
+####Question 6
+#####How many countries are Lower middle income but among the 38 nations with highest GDP?
+
+```r
+summary(mergedclean2$Ranking)
+```
+
+```
+##    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+##    1.00   48.00   95.00   95.31  143.00  190.00
+```
+
+```r
+lastquestion <-mergedclean2[1:6]
+lastquestion <-subset(lastquestion, select = -Long.Name)
+attach(lastquestion)
+lastquestion$quantile[Ranking <= 38] <-5
+lastquestion$quantile[Ranking > 38 & Ranking <= 76] <-4
+lastquestion$quantile[Ranking > 76 & Ranking <= 114] <-3
+lastquestion$quantile[Ranking > 114 & Ranking <= 152] <-2
+lastquestion$quantile[Ranking > 152 & Ranking <= 190] <-1
+table(lastquestion$Income.Group, lastquestion$quantile)
+```
+
+```
+##                       
+##                         1  2  3  4  5
+##                         0  0  0  0  0
+##   High income: nonOECD  2  4  8  5  4
+##   High income: OECD     0  1  1 10 18
+##   Low income           11 16  9  1  0
+##   Lower middle income  16  8 12 13  5
+##   Upper middle income   9  8  8  9 11
+```
+#### Five "Lower middle income"" countries are in the highest quantile of GDP
