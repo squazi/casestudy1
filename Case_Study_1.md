@@ -334,4 +334,4 @@ table(lastquestion$Income.Group, lastquestion$quantile)
 ```
 #### Five "Lower middle income"" countries are in the highest quantile of GDP
 # Conclusion
-### It seems like the relevant variable to evaluate GDP ranking is through income level, but there seems to be some correlation between GDP Rank and Income Group. Having low income appears to prevent a country from being in the top tier of GDP Rankings. Also, being a member of economic coalitions, like the OECD, has enaabled countries to reach higher GDP rankings than their unpartnered counterparts.
+### It seems like the relevant variable to evaluate GDP ranking is through income level, as there seems to be some correlation between GDP Rank and Income Group. Having low income appears to prevent a country from being in the top tier of GDP Rankings. Also, being a member of economic coalitions, like the OECD, has enaabled countries to reach higher GDP rankings than their unpartnered counterparts.
