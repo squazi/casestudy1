@@ -236,9 +236,6 @@ dim(mergeddata)
 ```
 ##### 224
 ###### *The total number of observations; however, will have to be trimmed down to 190, as those are the countries we have rankings and GDP data for.
-```r
-dim(mergeddata)
-```
 ###### After trimming the data, we only have 189 countries, as opposed to 190, because the education statistics data does not contain information specifically for South Sudan. This is understandable, because South Sudan has only existed since 2011, and is therefore relatively new.
 
 ## Question 2
